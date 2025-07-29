@@ -12,19 +12,6 @@ def generate_answers(
     max_retries=3,
     use_index=False
 ):
-    """
-    Iterate through cases, generate prompts, call the model, parse and save answers.
-
-    Args:
-        cases (List[dict]): List of case dicts.
-        client: An OpenAI client instance.
-        model_name (str): The name of the model to use.
-        prompt_fn (callable): Function to build a prompt; signature depends on `use_index`.
-        max_retries (int): Max number of generation attempts per case.
-        use_index (bool): If True, calls prompt_fn(data, idx), else prompt_fn(data).
-    Returns:
-        List[dict]: The list of answer dicts with case_id, pred_text, and answer.
-    """
     answers = []
 
     for idx, data in enumerate(tqdm(cases, desc="Generating answers")):

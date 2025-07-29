@@ -2,6 +2,7 @@ import re
 import json
 from tqdm.auto import tqdm
 import os
+from generation.prompt_generator import load_prompt
 
 def get_ref_ids(answer_text):
     references = set()
@@ -28,17 +29,11 @@ def format_sentences_with_ids(sentences, sentence_ids):
 
 def craft_summarize_prompt(text, sentences):
     sentence_ids = get_ref_ids(text)
-    prompt = f"""
-    Referenced Sentences:
-    {format_sentences_with_ids(sentences, sentence_ids)}
-
-    Summarize the following text within 75 words while making the text more faithful to the Referenced Sentence.
-    The citations should be in the same format like the below text like |1| or |5, 7|
-    Ensure that the summarized sentence retains the same citations as the original text. 
-    You may merge citations (e.g., |1|, |2| → |1, 2|), but the overall set of citations must remain unchanged.
-    {text}
-    """
-    return prompt
+    prompt_template = load_prompt('prompts/summarize.txt')
+    return prompt_template.format(
+        referenced_sentences=format_sentences_with_ids(sentences, sentence_ids),
+        text=text
+    )
 
 def summarize_text(text, sentences, client, model_name):
     prior_ids = get_ref_ids(text)

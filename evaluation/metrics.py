@@ -1,14 +1,4 @@
 def calculate_metrics(ground_truth, prediction):
-    """
-    Calculate precision, recall, and F1 score for essential sentence identification.
-
-    Args:
-        ground_truth (dict): Ground truth with case_id and answers
-        prediction (dict): Prediction with case_id and answers
-
-    Returns:
-        dict: Dictionary containing precision, recall, F1 score, and counts
-    """
     # Extract sentence IDs marked as essential in ground truth
     gt_essential = set()
     for answer in ground_truth['answers']:

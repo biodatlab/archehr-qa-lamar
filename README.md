@@ -74,8 +74,14 @@ The `cli.py` script provides a powerful way to run experiments from the command 
 # Run the baseline experiment
 python cli.py baseline
 
-# Run the few-shot experiments
-python cli.py few-shot
+# Run the basic few-shot experiment
+python cli.py few-shot-basic
+
+# Run the few-shot experiment with synthetic answers
+python cli.py few-shot-syn-ans
+
+# Run the few-shot experiment with synthetic answers and reasoning
+python cli.py few-shot-syn-w-reasoning
 
 # Run the RAG experiment
 python cli.py rag
@@ -92,8 +98,8 @@ You can easily override the default models using the `--model` and `--summarizer
 # Run the baseline experiment with a different model
 python cli.py baseline --model="anthropic/claude-3-haiku"
 
-# Run the few-shot experiments with a different summarizer
-python cli.py few-shot --summarizer="anthropic/claude-3-sonnet"
+# Run the basic few-shot experiment with a different summarizer
+python cli.py few-shot-basic --summarizer="anthropic/claude-3-sonnet"
 ```
 
 ## Project Structure

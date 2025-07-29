@@ -44,15 +44,13 @@ def baseline(model_name, summarizer_model):
     click.echo("Baseline experiment complete.")
 
 @cli.command()
-@click.option('--model', 'model_name', default='google/gemini-2.0-flash', help='Model to use for the few-shot experiments.')
+@click.option('--model', 'model_name', default='google/gemini-2.0-flash', help='Model to use for the basic few-shot experiment.')
 @click.option('--summarizer', 'summarizer_model', default='google/gemini-2.5-pro', help='Model to use for summarization.')
-def few_shot(model_name, summarizer_model):
-    """Runs the few-shot experiments."""
+def few_shot_basic(model_name, summarizer_model):
+    """Runs the basic few-shot experiment."""
     client = config.get_client()
     result = load_data(config.XML_FILE)
     
-    df = pd.read_pickle(config.EXEMPLARS_FILE)
-    all_cases = df.to_dict(orient="records")
     with open('prompts/example.json', 'r') as f:
         basic_examples = json.load(f)
 
@@ -71,7 +69,19 @@ def few_shot(model_name, summarizer_model):
         client,
         summarizer_model
     )
+    click.echo("Basic few-shot experiment complete.")
+
+@cli.command()
+@click.option('--model', 'model_name', default='google/gemini-2.0-flash', help='Model to use for the LLM-generated few-shot experiment.')
+@click.option('--summarizer', 'summarizer_model', default='google/gemini-2.5-pro', help='Model to use for summarization.')
+def few_shot_syn_ans(model_name, summarizer_model):
+    """Runs the few-shot experiment with LLM-generated exemplars."""
+    client = config.get_client()
+    result = load_data(config.XML_FILE)
     
+    df = pd.read_pickle(config.EXEMPLARS_FILE)
+    all_cases = df.to_dict(orient="records")
+
     click.echo(f"Running few-shot (LLM-generated exemplars) experiment with model: {model_name}")
     fewshot2_answers = generate_answers(
         cases=result["cases"],
@@ -87,6 +97,18 @@ def few_shot(model_name, summarizer_model):
         client,
         summarizer_model
     )
+    click.echo("LLM-generated few-shot experiment complete.")
+
+@cli.command()
+@click.option('--model', 'model_name', default='google/gemini-2.0-flash', help='Model to use for the few-shot with reasoning experiment.')
+@click.option('--summarizer', 'summarizer_model', default='google/gemini-2.5-pro', help='Model to use for summarization.')
+def few_shot_syn_w_reasoning(model_name, summarizer_model):
+    """Runs the few-shot experiment with reasoning."""
+    client = config.get_client()
+    result = load_data(config.XML_FILE)
+    
+    df = pd.read_pickle(config.EXEMPLARS_FILE)
+    all_cases = df.to_dict(orient="records")
 
     click.echo(f"Running few-shot (exemplars with reasoning) experiment with model: {model_name}")
     fewshot3_answers = generate_answers(
@@ -103,7 +125,7 @@ def few_shot(model_name, summarizer_model):
         client,
         summarizer_model
     )
-    click.echo("Few-shot experiments complete.")
+    click.echo("Few-shot with reasoning experiment complete.")
 
 @cli.command()
 @click.option('--model', 'model_name', default='google/gemini-2.5-pro', help='Model to use for the RAG experiment.')
@@ -148,7 +170,9 @@ def rag(model_name, summarizer_model):
 def all(ctx):
     """Runs all experiments with their default models."""
     ctx.invoke(baseline)
-    ctx.invoke(few_shot)
+    ctx.invoke(few_shot_basic)
+    ctx.invoke(few_shot_syn_ans)
+    ctx.invoke(few_shot_syn_w_reasoning)
     ctx.invoke(rag)
     click.echo("All experiments complete.")
 
