@@ -4,14 +4,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# API Key
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
-# Model Names
 EMBEDDING_MODEL = "ncbi/MedCPT-Query-Encoder"
 
-# File Paths
 DATA_DIR = "data/"
 OUTPUT_DIR = "output/"
 XML_FILE = f"{DATA_DIR}/archehr-qa.xml"
@@ -20,6 +17,5 @@ EXEMPLARS_FILE = f"{DATA_DIR}/syn_answer_update27.04.pkl"
 ARTICLE_FILE = f"{DATA_DIR}/mds_manual_data_with_embeddings.csv"
 QUERY_FILE = f"{DATA_DIR}/query_data.csv"
 
-# Model Configuration
 def get_client():
     return OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL) 
