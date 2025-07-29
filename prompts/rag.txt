@@ -1,0 +1,15 @@
+Articles:
+{articles}
+
+Clinical Note:
+{clinical_note}
+
+<answer>
+# Guidelines for response:
+1. Each sentence in your answer must reference specific evidence from the clinical note.
+2. Include sentence numbers in format |#| after each evidence-based statement.
+3. Maintain medical accuracy while using patient-friendly language.
+4. Do not add information beyond what is in the clinical notes.
+5. Return your response in the below format strictly.
+your answer in the format of |#| new_line sentence. |reference| ...
+</answer> 

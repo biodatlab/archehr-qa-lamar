@@ -1,0 +1,10 @@
+pandas
+numpy
+openai
+click
+lxml
+tqdm
+faiss-cpu
+transformers
+torch
+python-dotenv 

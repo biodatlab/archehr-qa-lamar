@@ -2,6 +2,8 @@ from lxml import etree
 from io import StringIO
 import re
 import json
+import pandas as pd
+import numpy as np
 
 def parse_clinical_annotations(xml_string):
     """
@@ -103,4 +105,8 @@ def load_data(file_path):
             return parse_clinical_annotations(f.read())
         elif file_path.endswith('.json'):
             return json.load(f)
-    return None 
+    return None
+
+def load_embeddings(file_path):
+    df = pd.read_csv(file_path)
+    return np.array(df['embeddings'].apply(lambda x: np.fromstring(x.strip("[]"), sep=' ')).tolist()) 

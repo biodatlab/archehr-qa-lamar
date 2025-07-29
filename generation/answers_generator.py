@@ -6,9 +6,9 @@ import os
 
 def generate_answers(
     cases,
-    model,
+    client,
+    model_name,
     prompt_fn,
-    answers_json_path,
     max_retries=3,
     use_index=False
 ):
@@ -17,9 +17,9 @@ def generate_answers(
 
     Args:
         cases (List[dict]): List of case dicts.
-        model: An LLM interface with `.generate_content(prompt).text`.
+        client: An OpenAI client instance.
+        model_name (str): The name of the model to use.
         prompt_fn (callable): Function to build a prompt; signature depends on `use_index`.
-        answers_json_path (str): Path for full answers JSON (with texts).
         max_retries (int): Max number of generation attempts per case.
         use_index (bool): If True, calls prompt_fn(data, idx), else prompt_fn(data).
     Returns:
@@ -40,7 +40,10 @@ def generate_answers(
 
         for attempt in range(max_retries):
             # Generate from the model
-            resp = model.generate_content(prompt).text
+            resp = client.chat.completions.create(
+                model=model_name,
+                messages=[{"role": "user", "content": prompt}]
+            ).choices[0].message.content
             pred_text = resp
             parsed = parse_prompt_response(pred_text)
             answer = parsed.get('answer')
@@ -55,13 +58,5 @@ def generate_answers(
             "pred_text": pred_text,
             "answer": answer
         })
-
-    # Save outputs
-    output_dir = os.path.dirname(answers_json_path)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        
-    with open(answers_json_path, 'w', encoding='utf-8') as f:
-        json.dump(answers, f, indent=2)
 
     return answers 

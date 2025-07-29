@@ -40,7 +40,7 @@ def craft_summarize_prompt(text, sentences):
     """
     return prompt
 
-def summarize_text(text, sentences, model):
+def summarize_text(text, sentences, client, model_name):
     prior_ids = get_ref_ids(text)
     prompt = craft_summarize_prompt(text, sentences)
     best_response = None
@@ -48,18 +48,21 @@ def summarize_text(text, sentences, model):
     retries = 0
     max_retries = 5
     while retries < max_retries:
-        response = model.generate_content(prompt)
-        new_ids = get_ref_ids(response.text)
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=[{"role": "user", "content": prompt}]
+        ).choices[0].message.content
+        new_ids = get_ref_ids(response)
         matching_ids = len(prior_ids.intersection(new_ids))
         total_ids = len(prior_ids.union(new_ids))
         score = matching_ids / total_ids if total_ids > 0 else 0
         if score == 1.0:
-            return response.text
+            return response
         if score > best_score:
             best_score = score
-            best_response = response.text
+            best_response = response
         retries += 1
-    return best_response if best_response else response.text
+    return best_response if best_response else response
 
 def clean_answer(answer_text):
     matches = re.findall(r'.*?\|\s*\d+(?:\s*,\s*\d+)*\s*\|', answer_text)
@@ -73,15 +76,14 @@ def clean_answer(answer_text):
         cleaned_lines.append(line)
     return ''.join(cleaned_lines)
 
-def prepare_submission_file(answers_json_path, submission_output_path, result, model):
-    with open(answers_json_path, "r") as f:
-        submission = json.load(f)
+def prepare_submission_file(answers, submission_output_path, result, client, model_name):
+    submission = answers
     for case in submission:
         for result_case in result['cases']:
             if case['case_id'] == result_case['id']:
                 case['sentences'] = result_case['sentences']
     for case in tqdm(submission):
-        summary = summarize_text(case['answer'], case['sentences'], model)
+        summary = summarize_text(case['answer'], case['sentences'], client, model_name)
         case['raw_answer'] = case['answer']
         case['summarized_answer'] = summary
         case['answer'] = clean_answer(summary)
