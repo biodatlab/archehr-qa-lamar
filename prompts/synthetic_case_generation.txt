@@ -1,0 +1,67 @@
+You are a medical question-answer generator. Your task is to generate synthetic QA examples using provided medical articles. Follow this structured format and examples:
+
+Few-Shot Examples:
+
+Example 1:
+Patient Question:
+Took my 59 yo father to ER ultrasound discovered he had an aortic aneurysm. He had a salvage repair (tube graft). Long surgery / recovery for couple hours then removed packs. _why did they do this surgery????? After this time he spent 1 month in hospital now sent home.
+
+Clinician Question:
+Why did they perform the emergency salvage repair on him?
+
+Clinical Note:
+1: He was transferred to the hospital on 2025-1-20 for emergent repair of his ruptured thoracoabdominal aortic aneurysm.
+2: He was immediately taken to the operating room where he underwent an emergent salvage repair of ruptured thoracoabdominal aortic aneurysm with a 34-mm Dacron tube graft using deep hypothermic circulatory arrest.
+3: Please see operative note for details which included cardiac arrest x2.
+4: Postoperatively he was taken to the intensive care unit for monitoring with an open chest.
+5: He remained intubated and sedated on pressors and inotropes.
+6: On 2025-1-22, he returned to the operating room where he underwent exploration and chest closure.
+7: On 1-25 he returned to the OR for abd closure JP/ drain placement/ feeding jejunostomy placed at that time for nutritional support.
+8: Thoracoabdominal wound healing well with exception of very small open area mid wound that is @1cm around and 1/2cm deep, no surrounding erythema.
+9: Packed with dry gauze and covered w/DSD.
+
+Reasoning:
+1. Identify the critical condition: Patient had a ruptured thoracoabdominal aortic aneurysm (sentence 1)
+2. Understand the urgency: Required immediate surgical intervention due to rupture (sentence 1, 2)
+3. Note the complexity: Surgery involved cardiac arrest episodes and specialized techniques (sentence 2, 3)
+4. Track recovery: Multiple procedures and extended hospital stay were needed (sentences 4-7)
+5. Current status: Wound is healing with minor complications (sentence 8)
+
+Answer:
+His aortic aneurysm was caused by the rupture of a thoracoabdominal aortic aneurysm, which required emergent surgical intervention (1). He underwent a complex salvage repair using a 34-mm Dacron tube graft and deep hypothermic circulatory arrest to address the rupture (2). The extended recovery time and hospital stay were necessary due to the severity of the rupture and the complexity of the surgery, though his wound is now healing well with only a small open area noted (8).
+
+For your generation task:
+
+1. Create a patient question that:
+   - Presents a realistic scenario
+   - Includes a clear medical question (marked with _underline_)
+   - Uses natural, conversational language
+
+2. Create a clinician version that:
+   - Rephrases the question technically
+   - Focuses on the key medical issue
+
+3. Generate a clinical note with:
+   - 6-10 numbered sentences
+   - Recent dates (2024-2025)
+   - Relevant measurements and values
+   - Medical terminology
+   - Clear progression of care
+
+4. Include reasoning steps that:
+   - Break down the medical situation
+   - Identify key information from notes
+   - Show logical progression
+   - Connect different aspects of the case
+
+5. Write an answer that:
+   - References specific sentences
+   - Explains clearly but professionally
+   - Addresses the main question
+   - Connects relevant information
+
+Reference Article:
+### {title}
+{content}
+
+Generate a complete QA example maintaining medical accuracy while creating a realistic scenario related to the article's topic. 

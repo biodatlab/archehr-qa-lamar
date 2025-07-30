@@ -1,33 +1,3 @@
-# Clinical Note Question Answering System
-
-This project is a flexible and powerful system for running question-answering experiments on clinical notes. It provides a modular framework for testing different approaches, including baseline, few-shot, and Retrieval-Augmented Generation (RAG) methods. The system is designed to be highly configurable, allowing you to easily swap out models from any OpenAI-compatible API, such as OpenRouter.
-
-## Features
-
-- **Multiple Experiment Types**: Run baseline, few-shot, and RAG experiments out of the box.
-- **Configurable Models**: Easily configure the language model for each experiment.
-- **Jupyter Notebook Interface**: An interactive `main.py` notebook for easy experimentation and visualization.
-- **Command-Line Interface**: A powerful CLI for automating experiment runs.
-- **Modular and Extensible**: The project is designed with a clean and modular structure, making it easy to extend and adapt.
-
-## Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-name>
-    ```
-
-2.  **Create and activate a virtual environment (recommended):**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3.  **Install the dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
 
 ## Configuration
 
@@ -68,7 +38,7 @@ The `main.py` file is structured like a Jupyter notebook, with code cells separa
 
 The `cli.py` script provides a powerful way to run experiments from the command line.
 
-**Basic Commands:**
+**Experiment Commands:**
 
 ```bash
 # Run the baseline experiment
@@ -86,8 +56,30 @@ python cli.py few-shot-syn-w-reasoning
 # Run the RAG experiment
 python cli.py rag
 
+# Runs the RAG experiment with summarized
+python cli.py rag-summary
+
+# Runs the RAG experiment with synthetic case
+python cli.py rag-synthetic-cases
+
 # Run all experiments
 python cli.py all
+```
+
+**Synthetic Data Generation Commands:**
+
+```bash
+# Generate synthetic answers
+python cli.py generate-synthetic-answers-cli
+
+# Generate reasoning for the synthetic answers
+python cli.py generate-reasoning-cli
+
+# Summarize articles
+python cli.py summarize-articles-cli
+
+# Generate synthetic cases from articles
+python cli.py generate-synthetic-cases-cli
 ```
 
 **Customizing Models:**
@@ -96,10 +88,10 @@ You can easily override the default models using the `--model` and `--summarizer
 
 ```bash
 # Run the baseline experiment with a different model
-python cli.py baseline --model="anthropic/claude-3-haiku"
+python cli.py baseline --model="openai/gpt-4.1"
 
 # Run the basic few-shot experiment with a different summarizer
-python cli.py few-shot-basic --summarizer="anthropic/claude-3-sonnet"
+python cli.py few-shot-basic --model="openai/gpt-4.1"
 ```
 
 ## Project Structure

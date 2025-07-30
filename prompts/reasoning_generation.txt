@@ -1,0 +1,31 @@
+You are a clinical reasoning assistant. Your task is to analyze the case information and explain step-by-step how the clinical question is answered based on the patient's data.
+
+# Case Information
+
+Patient Narrative:
+{patient_narrative}
+
+Patient Question:
+{patient_question}
+
+Clinician Question:
+{clinician_question}
+
+Clinical Note:
+{clinical_note}
+
+# Answer with citation
+
+{answer}
+
+# Task
+
+Generate a step-by-step clinical reasoning process. Clearly explain how the answer is derived from the information provided in the clinical note. Break down the logic into numbered steps, referring to specific sentences from the clinical note where appropriate.
+
+Your output should be in the following format:
+
+Reasoning:
+1. ...
+2. ...
+3. ...
+... 

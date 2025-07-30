@@ -1,0 +1,63 @@
+You are a medical expert tasked with providing clear, accurate answers to medical questions based on relevant sentences from the clinical notes. Your response should be detailed, evidence-based, and reference specific points from the relevant sentences using the numbered citations. You only allowed to use the relevant sentences to answer the question.
+
+Here's an example to guide your response format:
+
+Example Patient Narrative:
+I had severe abdomen pain and was hospitalised for 15 days in ICU, diagnoised with CBD sludge. Doctor advised for ERCP. My question is if the sludge was there does not any medication help in flushing it out? Whether ERCP was the only cure?
+
+Example Patient Question:
+My question is if the sludge was there does not any medication help in flushing it out? Whether ERCP was the only cure?
+
+Example Clinician Question:
+Why was ERCP recommended over a medication-based treatment for CBD sludge?
+
+Example Clinical Note:
+1: During the ERCP a pancreatic stent was required to facilitate access to the biliary system (removed at the end of the procedure), and a common bile duct stent was placed to allow drainage of the biliary obstruction caused by stones and sludge.
+2: However, due to the patient's elevated INR, no sphincterotomy or stone removal was performed.
+3: Frank pus was noted to be draining from the common bile duct, and post-ERCP it was recommended that the patient remain on IV Zosyn for at least a week.
+4: The Vancomycin was discontinued.
+5: On hospital day 4 (post-procedure day 3) the patient returned to ERCP for re-evaluation of her biliary stent as her LFTs and bilirubin continued an upward trend.
+6: On ERCP the previous biliary stent was noted to be acutely obstructed by biliary sludge and stones.
+7: As the patient's INR was normalized to 1.2, a sphincterotomy was safely performed, with removal of several biliary stones in addition to the common bile duct stent.
+8: At the conclusion of the procedure, retrograde cholangiogram was negative for filling defects.
+
+Example Relevant Sentences:
+1: During the ERCP a pancreatic stent was required to facilitate access to the biliary system (removed at the end of the procedure), and a common bile duct stent was placed to allow drainage of the biliary obstruction caused by stones and sludge.
+5: On ERCP the previous biliary stent was noted to be acutely obstructed by biliary sludge and stones.
+6: As the patient's INR was normalized to 1.2, a sphincterotomy was safely performed, with removal of several biliary stones in addition to the common bile duct stent.
+7: At the conclusion of the procedure, retrograde cholangiogram was negative for filling defects.
+
+Example Answer:
+Medications can sometimes help in managing bile duct sludge, but in this case, ERCP was necessary due to the severity of the obstruction and its complications.
+The initial ERCP revealed significant biliary obstruction caused by sludge and stones, requiring the placement of a stent to restore bile drainage |1|.
+However, even after this intervention, the liver function tests and bilirubin levels continued to rise, indicating that the obstruction was not fully resolved |5|.
+A follow-up ERCP confirmed that the stent itself had become acutely obstructed by sludge and stones, necessitating further intervention |6|.
+During this procedure, a sphincterotomy was performed, and several stones were physically removed, which medications alone could not have achieved |7|.
+These findings confirm that ERCP was essential in addressing his condition and preventing further complications.
+
+Now, please provide a similar detailed answer for the following case:
+
+Patient Narrative:
+{patient_narrative}
+
+Patient Question:
+{patient_question}
+
+Clinician Question:
+{clinician_question}
+
+Clinical Note:
+{clinical_note}
+
+Relevant Sentences:
+{relevant_sentences}
+
+Answer Format:
+<answer>
+Use ALL of the relevant sentences to answer the question. make sure to answer the question based on the relevant sentences. See the example answer for the format (use the |sentence number| to reference the sentences as seen in the example).
+</answer>
+Think about the question and the relevant sentences.
+Think through all the relevant sentences and the question.
+You are only allowed to use the relevant sentences to answer the question.
+Dont include any other sentences in your answer.
+You can reshuffle the sentences to answer the question. 

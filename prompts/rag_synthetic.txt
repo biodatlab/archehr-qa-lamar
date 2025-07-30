@@ -1,0 +1,22 @@
+# Examples
+{examples}
+
+# To answer
+
+Patient Narrative:
+{patient_narrative}
+
+Patient Question:
+{patient_question}
+
+Clinician Question:
+{clinician_question}
+
+Clinical Note:
+{clinical_note}
+
+Return your response in the below format strictly.
+<answer>
+your answer based on the things you have seen in the Example Patient Narrative, Example Patient Question, Example Clinician Question, Example Clinical Note and the Example Answer.
+Please do not use hyphen('-') in the citation. List all the citations.
+</answer> 

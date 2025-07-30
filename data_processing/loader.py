@@ -109,4 +109,17 @@ def load_data(file_path):
 
 def load_embeddings(file_path):
     df = pd.read_csv(file_path)
-    return np.array(df['embeddings'].apply(lambda x: np.fromstring(x.strip("[]"), sep=' ')).tolist()) 
+    return np.array(df['embeddings'].apply(lambda x: np.fromstring(x.strip("[]"), sep=' ')).tolist())
+
+def parse_synthetic_qa(synthetic_qa):
+    """Extract components from a synthetic_qa string"""
+    sections = ['Patient Question', 'Clinician Question', 'Clinical Note', 'Reasoning', 'Answer']
+    parsed = {}
+    for i in range(len(sections)):
+        start = f"{sections[i]}:"
+        end = f"{sections[i+1]}:" if i + 1 < len(sections) else None
+        pattern = re.compile(f"{re.escape(start)}(.*?){re.escape(end) if end else '$'}", re.DOTALL)
+        match = pattern.search(synthetic_qa)
+        if match:
+            parsed[sections[i]] = match.group(1).strip()
+    return parsed 
