@@ -54,6 +54,28 @@ def parse_clinical_annotations(xml_string):
 
     return result
 
+def load_xml_as_dataframe(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        xml_string = f.read()
+    
+    parsed_data = parse_clinical_annotations(xml_string)
+    
+    records = []
+    for case in parsed_data['cases']:
+        patient_question_texts = " ".join([q['text'] for q in case['patient_questions']])
+        note_excerpt_sentences_texts = " ".join([s['text'] for s in case['sentences']])
+        
+        records.append({
+            'Case ID': case['id'],
+            'Patient Narrative': case['patient_narrative'],
+            'Patient Question': patient_question_texts,
+            'Clinician Question': case['clinician_question'],
+            'Note Excerpt': case['note_excerpt'],
+            'Note Excerpt Sentences': note_excerpt_sentences_texts
+        })
+        
+    return pd.DataFrame(records)
+
 def parse_referenced_answer(answer_text, case_id, total_sentences=9):
     """
     Parse an answer text with references and convert to structured JSON format.
@@ -102,14 +124,10 @@ def parse_referenced_answer(answer_text, case_id, total_sentences=9):
 def load_data(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         if file_path.endswith('.xml'):
-            return parse_clinical_annotations(f.read())
+            return load_xml_as_dataframe(file_path)
         elif file_path.endswith('.json'):
             return json.load(f)
     return None
-
-def load_embeddings(file_path):
-    df = pd.read_csv(file_path)
-    return np.array(df['embeddings'].apply(lambda x: np.fromstring(x.strip("[]"), sep=' ')).tolist())
 
 def parse_synthetic_qa(synthetic_qa):
     """Extract components from a synthetic_qa string"""
@@ -122,4 +140,4 @@ def parse_synthetic_qa(synthetic_qa):
         match = pattern.search(synthetic_qa)
         if match:
             parsed[sections[i]] = match.group(1).strip()
-    return parsed 
+    return parsed

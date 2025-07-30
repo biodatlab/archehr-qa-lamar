@@ -1,4 +1,7 @@
-data/
+data/archehr-qa_key.json
+data/archehr-qa.xml
+data/*.json
+data/*.xml
 output/
 .DS_Store
 .ipynb_checkpoints/

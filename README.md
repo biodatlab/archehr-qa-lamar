@@ -1,3 +1,32 @@
+# LAMAR at ArchEHR-QA 2025: Clinically Aligned LLM-Generated Few-Shot Learning for EHR-Grounded Patient Question Answering
+
+This repository contains the implementation of [LAMAR at ArchEHR-QA 2025](https://aclanthology.org/2025.bionlp-share.12.pdf) — 🏆 #1 on the human‑evaluation leaderboard.
+
+## **Overview:** 
+LAMAR frames EHR-Grounded Patient QA as an alignment problem. We compare various in‑context learning (ICL) and retrieval‑augmented generation (RAG) strategies. In the final submission, we developed a multistage few‑shot pipeline (no external data). First, Gemini‑2.5‑Pro generates 20 cited exemplars from the development set. GPT‑4.1 then uses these exemplars to produce initial answers on the test set. We extract citations from those outputs and, in the final stage, feed each test instance plus its retrieved references into Gemini‑2.5‑Pro to generate the final grounded answers. 
+
+## Approaches
+
+<div align="center">
+  <img src="assets/LAMAR_approaches.png" alt="LAMAR Approaches” width="600">
+</div>
+
+### 1. Baseline
+- **Zero‑shot & CoT** prompting on GPT-4.1, Gemini2.0‑Flash, Claude‑3.7‑Sonnet  
+
+### 2. In‑Context Learning (ICL)
+- **Basic Few-shot**: 2 ArchEHR examples  
+- **LLM-Generated Exemplars as Few-shot**: Gemini‑2.5‑Pro produces exemplar Q&A  
+- **LLM-Generated Exemplars with Reasoning**: Gemini‑2.5‑Pro adds CoT rationales to exemplars
+
+### 3. Retrieval‑Augmented Generation (RAG)
+- **Corpora**: 10 232 MedlinePlus + 2 927 Merck Manual articles  
+- **Embeddings**: MedCPT; indexed for retrieval  
+- **Variants**:  
+  1. Full‑text articles  
+  2. One‑paragraph summaries  
+  3. Synthetic clinical cases (formatted via few‑shot)
+
 
 ## Configuration
 
@@ -112,4 +141,29 @@ python cli.py few-shot-basic --model="openai/gpt-4.1"
 ├── requirements.txt        # Project dependencies
 ├── utils/                  # Utility functions
 └── README.md               # This file
-``` 
+```
+
+## BibTeX Citation
+
+If you use [LAMAR at ArchEHR-QA 2025](https://aclanthology.org/2025.bionlp-share.12.pdf) in your research, cite our paper using the following BibTex
+
+```
+@inproceedings{yoadsanit-etal-2025-lamar,
+    title = "{LAMAR} at {A}rch{EHR}-{QA} 2025: Clinically Aligned {LLM}-Generated Few-Shot Learning for {EHR}-Grounded Patient Question Answering",
+    author = "Yoadsanit, Seksan  and
+      Lekuthai, Nopporn  and
+      Sermsrisuwan, Watcharitpol  and
+      Achakulvisut, Titipat",
+    editor = "Soni, Sarvesh  and
+      Demner-Fushman, Dina",
+    booktitle = "Proceedings of the 24th Workshop on Biomedical Language Processing (Shared Tasks)",
+    month = aug,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.bionlp-share.12/",
+    pages = "96--103",
+    ISBN = "979-8-89176-276-3",
+    abstract = "This paper presents an approach to answering patient-specific medical questions using electronic health record (EHR) grounding with ArchEHR-QA 2025 datasets. We address medical question answering as an alignment problem, focusing on generating responses factually consistent with patient-specific clinical notes through in-context learning techniques. We show that LLM-generated responses, used as few-shot examples with GPT-4.1 and Gemini-2.5-Pro, significantly outperform baseline approaches (overall score = 49.1), achieving strict precision, recall, and F1-micro scores of 60.6, 53.6, and 56.9, respectively, on the ArchEHR-QA 2025 test leaderboard. It achieves textual similarity between answers and essential evidence using BLEU, ROUGE, SARI, BERTScore, AlignScore, and MEDCON scores of 6.0, 32.1, 65.8, 36.4, 64.3, and 43.6, respectively. Our findings highlight the effectiveness of combining EHR grounding with few-shot examples for personalized medical question answering, establishing a promising approach for developing accurate and personalized medical question answering systems. We release our code at https://github.com/biodatlab/archehr-qa-lamar."
+}
+```

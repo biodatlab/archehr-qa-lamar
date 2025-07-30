@@ -5,6 +5,9 @@ from transformers import AutoModel, AutoTokenizer
 import torch
 from tqdm.auto import tqdm
 
+def load_faiss_index(file_path):
+    return faiss.read_index(file_path)
+
 def build_faiss_index(embeddings):
     dimension = embeddings.shape[1]
     index = faiss.IndexFlatIP(dimension)

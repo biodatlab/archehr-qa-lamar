@@ -4,7 +4,7 @@ import click
 import pandas as pd
 import numpy as np
 import config
-from data_processing.loader import load_data, load_embeddings
+from data_processing.loader import load_data, load_xml_as_dataframe
 from generation.prompt_generator import (
     generate_prompt_baseline,
     generate_prompt_fewshot,
@@ -175,19 +175,17 @@ def generate_reasoning_cli(model_name, input_path, output_path):
 @click.option('--output', 'output_path', default=config.SUMMARIZED_ARTICLES_FILE, help='Path to save the summarized articles.')
 def summarize_articles_cli(model_name, output_path):
     """Summarizes articles and saves them to a file."""
-    from rag.retrieval import build_faiss_index, embed_text, retrieve_articles
+    from rag.retrieval import build_faiss_index, embed_text, retrieve_articles, load_faiss_index
     from transformers import AutoModel, AutoTokenizer
     client = config.get_client()
-    result = load_data(config.XML_FILE)
     df_article = pd.read_csv(config.ARTICLE_FILE)
-    df_query = pd.read_csv(config.QUERY_FILE)
+    df_query = load_xml_as_dataframe(config.XML_FILE)
     
     query_model = AutoModel.from_pretrained(config.EMBEDDING_MODEL)
     query_tokenizer = AutoTokenizer.from_pretrained(config.EMBEDDING_MODEL)
     
     question_embeddings = embed_text(df_query['Clinician Question'].tolist(), query_model, query_tokenizer)
-    article_embeddings = load_embeddings(config.ARTICLE_FILE)
-    index = build_faiss_index(article_embeddings)
+    index = load_faiss_index(config.VECTOR_DATABASE_FILE)
     
     retrieved_articles = retrieve_articles(np.array(question_embeddings), index, df_article)
 
@@ -199,19 +197,17 @@ def summarize_articles_cli(model_name, output_path):
 @click.option('--output', 'output_path', default=config.SYNTHETIC_CASES_FILE, help='Path to save the synthetic cases.')
 def generate_synthetic_cases_cli(model_name, output_path):
     """Generates synthetic cases and saves them to a file."""
-    from rag.retrieval import build_faiss_index, embed_text, retrieve_articles
+    from rag.retrieval import build_faiss_index, embed_text, retrieve_articles, load_faiss_index
     from transformers import AutoModel, AutoTokenizer
     client = config.get_client()
-    result = load_data(config.XML_FILE)
     df_article = pd.read_csv(config.ARTICLE_FILE)
-    df_query = pd.read_csv(config.QUERY_FILE)
+    df_query = load_xml_as_dataframe(config.XML_FILE)
     
     query_model = AutoModel.from_pretrained(config.EMBEDDING_MODEL)
     query_tokenizer = AutoTokenizer.from_pretrained(config.EMBEDDING_MODEL)
     
     question_embeddings = embed_text(df_query['Clinician Question'].tolist(), query_model, query_tokenizer)
-    article_embeddings = load_embeddings(config.ARTICLE_FILE)
-    index = build_faiss_index(article_embeddings)
+    index = load_faiss_index(config.VECTOR_DATABASE_FILE)
     
     retrieved_articles = retrieve_articles(np.array(question_embeddings), index, df_article)
 
@@ -223,20 +219,19 @@ def generate_synthetic_cases_cli(model_name, output_path):
 @click.option('--summarizer', 'summarizer_model', default='google/gemini-2.5-pro', help='Model to use for summarization.')
 def rag(model_name, summarizer_model):
     """Runs the RAG experiment."""
-    from rag.retrieval import build_faiss_index, embed_text, retrieve_articles
+    from rag.retrieval import build_faiss_index, embed_text, retrieve_articles, load_faiss_index
     from transformers import AutoModel, AutoTokenizer
     client = config.get_client()
     result = load_data(config.XML_FILE)
 
     df_article = pd.read_csv(config.ARTICLE_FILE)
-    df_query = pd.read_csv(config.QUERY_FILE)
+    df_query = load_xml_as_dataframe(config.XML_FILE)
     
     query_model = AutoModel.from_pretrained(config.EMBEDDING_MODEL)
     query_tokenizer = AutoTokenizer.from_pretrained(config.EMBEDDING_MODEL)
     
     question_embeddings = embed_text(df_query['Clinician Question'].tolist(), query_model, query_tokenizer)
-    article_embeddings = load_embeddings(config.ARTICLE_FILE)
-    index = build_faiss_index(article_embeddings)
+    index = load_faiss_index(config.VECTOR_DATABASE_FILE)
     
     retrieved_articles = retrieve_articles(np.array(question_embeddings), index, df_article)
 

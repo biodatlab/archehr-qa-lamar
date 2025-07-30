@@ -32,7 +32,7 @@ Example Clinical Note: {format_clinical_note(ex['sentences'])}
 {reasoning}
 Example Answer: {ex["syn_answer"]}
 """)
-    
+
     prompt_template = load_prompt('prompts/fewshot.txt')
     return prompt_template.format(
         examples=''.join(example_prompts),
@@ -48,7 +48,7 @@ def generate_prompt_rag(data, retrieved_articles, use_summaries=False):
         f"Title: {art['title']}\n{article_key.capitalize()}: {art[article_key]}"
         for art in retrieved_articles
     ])
-    
+
     prompt_template = load_prompt('prompts/rag.txt')
     return prompt_template.format(
         articles=relevant_articles,

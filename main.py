@@ -4,15 +4,17 @@ os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 import pandas as pd
 import numpy as np
 import config
-from data_processing.loader import load_data, load_embeddings
+from data_processing.loader import load_data, load_xml_as_dataframe
 from generation.prompt_generator import (
     generate_prompt_baseline,
     generate_prompt_fewshot,
     generate_prompt_rag,
+    generate_prompt_rag_summary,
+    generate_prompt_rag_synthetic_cases
 )
 from generation.answers_generator import generate_answers
 from postprocess import prepare_submission_file
-from rag.retrieval import build_faiss_index, embed_text, retrieve_articles
+from rag.retrieval import build_faiss_index, embed_text, retrieve_articles, load_faiss_index
 from transformers import AutoModel, AutoTokenizer
 import json
 
@@ -113,7 +115,7 @@ prepare_submission_file(
 # ### RAG experiments
 # %%
 df_article = pd.read_csv(config.ARTICLE_FILE)
-df_query = pd.read_csv(config.QUERY_FILE)
+df_query = load_xml_as_dataframe(config.XML_FILE)
 
 # Load model for RAG
 query_model = AutoModel.from_pretrained(config.EMBEDDING_MODEL)
@@ -121,8 +123,7 @@ query_tokenizer = AutoTokenizer.from_pretrained(config.EMBEDDING_MODEL)
 
 # Create embeddings and build index
 question_embeddings = embed_text(df_query['Clinician Question'].tolist(), query_model, query_tokenizer)
-article_embeddings = load_embeddings(config.ARTICLE_FILE)
-index = build_faiss_index(article_embeddings)
+index = load_faiss_index(config.VECTOR_DATABASE_FILE)
 
 # Retrieve articles for all queries
 retrieved_articles = retrieve_articles(np.array(question_embeddings), index, df_article)
@@ -243,7 +244,7 @@ rag3_answers = generate_answers(
     cases=result["cases"],
     client=client,
     model_name=RAG_MODEL,
-    prompt_fn=lambda case: generate_prompt_rag3(case, all_synthetic_cases),
+    prompt_fn=lambda case: generate_prompt_rag_synthetic_cases(case, all_synthetic_cases),
     max_retries=5
 )
 prepare_submission_file(

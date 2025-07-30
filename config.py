@@ -17,8 +17,8 @@ SYNTHETIC_ANSWERS_FILE = f"{DATA_DIR}/syn_answer.pkl"
 SYNTHETIC_ANSWERS_WITH_REASONING_FILE = f"{DATA_DIR}/syn_answer_with_reasoning.pkl"
 SUMMARIZED_ARTICLES_FILE = f"{DATA_DIR}/summarized_articles.pkl"
 SYNTHETIC_CASES_FILE = f"{DATA_DIR}/synthetic_cases.csv"
-ARTICLE_FILE = f"{DATA_DIR}/mds_manual_data_with_embeddings.csv"
-QUERY_FILE = f"{DATA_DIR}/query_data.csv"
+VECTOR_DATABASE_FILE = f"{DATA_DIR}/vector_database.faiss"
+ARTICLE_FILE = f"{DATA_DIR}/articles.csv"
 
 def get_client():
     return OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL) 
