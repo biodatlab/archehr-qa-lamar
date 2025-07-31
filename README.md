@@ -47,13 +47,11 @@ LAMAR frames EHR-Grounded Patient QA as an alignment problem. We compare various
 
 ## Usage
 
-You can run the experiments using either the Jupyter-style notebook (`main.py`) or the command-line interface (`cli.py`).
+You can run the experiments using either the Jupyter notebook (`experiment.ipynb`) or the command-line interface (`cli.py`).
 
 ### Notebook Interface
 
-The `main.py` file is structured like a Jupyter notebook, with code cells separated by `# %%`. You can run it in any editor that supports this format (e.g., VS Code, PyCharm).
-
-1.  **Open `main.py`** in your editor.
+1.  **Open `experiment.ipynb`** in your editor.
 2.  **Configure the models** at the top of the file:
     ```python
     BASELINE_MODEL = "google/gemini-2.5-pro"
@@ -133,7 +131,7 @@ python cli.py few-shot-basic --model="openai/gpt-4.1"
 ├── data_processing/        # Data loading and parsing scripts
 ├── evaluation/             # Evaluation metrics
 ├── generation/             # Prompt and answer generation scripts
-├── main.py                 # Main notebook for experiments
+├── experiment.ipynb                 # Main notebook for experiments
 ├── output/                 # Generated output files
 ├── postprocess.py          # Post-processing scripts
 ├── prompts/                # Prompt templates
