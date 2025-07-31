@@ -3,7 +3,7 @@
 This repository contains the implementation of [LAMAR at ArchEHR-QA 2025](https://aclanthology.org/2025.bionlp-share.12.pdf) — 🏆 #1 on the human‑evaluation leaderboard.
 
 ## **Overview:** 
-LAMAR frames EHR-Grounded Patient QA as an alignment problem. We compare various in‑context learning (ICL) and retrieval‑augmented generation (RAG) strategies. In the final submission, we developed a multistage few‑shot pipeline (no external data). First, Gemini‑2.5‑Pro generates 20 cited exemplars from the development set. GPT‑4.1 then uses these exemplars to produce initial answers on the test set. We extract citations from those outputs and, in the final stage, feed each test instance plus its retrieved references into Gemini‑2.5‑Pro to generate the final grounded answers. 
+LAMAR frames EHR-Grounded Patient QA as an alignment problem. We compare various in‑context learning (ICL) and retrieval‑augmented generation (RAG) strategies. In the final submission, we developed a multistage few‑shot pipeline (no external data). First, Gemini‑2.5‑Pro generates 20 cited exemplars from the development set. GPT‑4.1 then uses these exemplars to produce initial answers on the test set. We extract citations from those outputs and, in the final stage, feed each test instance plus its retrieved references into Gemini‑2.5‑Pro to generate the final grounded answers.
 
 ## Approaches
 
@@ -27,6 +27,17 @@ LAMAR frames EHR-Grounded Patient QA as an alignment problem. We compare various
   2. One‑paragraph summaries  
   3. Synthetic clinical cases (formatted via few‑shot)
 
+## Dataset
+
+We use the [ArchEHR-QA dataset](https://physionet.org/content/archehr-qa-bionlp-task-2025/1.2/), which includes 120 patient cases (20 development and 100 test), each consisting of a clinical note and a patient-inspired question. Please find further dataset description in the [PhysioNet page](https://physionet.org/content/archehr-qa-bionlp-task-2025/1.2/).
+
+To get started:
+
+1. Visit the [PhysioNet page](https://physionet.org/content/archehr-qa-bionlp-task-2025/1.2/) and download the following files:
+   - `archehr-qa.xml`
+   - `archehr-qa_key.json`
+
+2. Place both files inside the `data/` directory at the root of this repository.
 
 ## Configuration
 
