@@ -8,7 +8,7 @@ LAMAR frames EHR-Grounded Patient QA as an alignment problem. We compare various
 ## Approaches
 
 <div align="center">
-  <img src="assets/LAMAR_approaches.png" alt="LAMAR Approaches” width="600">
+  <img src="assets/LAMAR_approaches-min.png" alt="LAMAR Approaches” width="600">
 </div>
 
 ### 1. Baseline
